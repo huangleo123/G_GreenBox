@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="#cecece"
+        android:layout_height="205dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:background="#defeef"
+            android:layout_height="200dp">
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:id="@+id/know_viewpager"
+
+
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="5dp"
+                >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dip"
+                android:orientation="horizontal" >
+
+
+                <View
+                    android:id="@+id/view_dot_1"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    android:background="@drawable/dot_normal" />
+
+
+                <View
+                    android:id="@+id/view_dot_2"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    android:background="@drawable/dot_normal" />
+
+                <View
+                    android:id="@+id/view_dot_3"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    android:background="@drawable/dot_normal" />
+                <View
+                    android:id="@+id/view_dot_4"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    android:background="@drawable/dot_normal" />
+            </LinearLayout>
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:clickable="true"
+
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/shuisheng"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="水仙花卉"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/caoben"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="草本花卉"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/muben"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="木本花卉"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/qiugeng"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="球根花卉"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_weight="0.05">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="0.25"
+            android:layout_height="match_parent">
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/dipi"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="地被植物"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/sugen"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="宿根花卉"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/zaolei"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="藻类植物"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="0.25"
+            android:layout_height="match_parent">
+            <com.task.dd.greenbox.tool.GradientImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/duorou"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="多肉植物"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

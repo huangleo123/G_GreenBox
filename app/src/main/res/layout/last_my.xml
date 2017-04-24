@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#cecece"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--背景和用户名字-->
+    <View
+        android:id="@+id/device_first"
+        android:layout_below="@+id/last_head"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        />
+    <!--我的花盆-->
+    <View
+        android:id="@+id/device_third"
+        android:layout_below="@+id/last_flower"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+
+
+        />
+    <!--通知-->
+    <LinearLayout
+        android:id="@+id/last_information"
+        android:layout_below="@+id/device_third"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/information"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/imageView7" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="通知"
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_right_arrow"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/device_fourth"
+        android:layout_below="@+id/last_information"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#595959"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <!--私信-->
+    <LinearLayout
+        android:id="@+id/last_talk"
+        android:layout_below="@id/device_fourth"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/talk"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+
+            android:id="@+id/imageView6" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="私信"
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_right_arrow"
+            android:layout_gravity="center_vertical"
+            />
+
+    </LinearLayout>
+    <View
+        android:id="@+id/device_fifth"
+        android:layout_below="@+id/last_talk"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+
+
+        />
+    <!--系统设置-->
+    <LinearLayout
+        android:id="@+id/last_setting"
+        android:layout_below="@id/device_fifth"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/setting"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="系统设置"
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_right_arrow"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/device_sixth"
+        android:layout_below="@+id/last_setting"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#595959"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <!--意见反馈-->
+    <LinearLayout
+        android:id="@+id/last_advise"
+        android:layout_below="@id/device_sixth"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/advise"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="意见反馈"
+
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_right_arrow"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/device_seventh"
+        android:layout_below="@+id/last_advise"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#595959"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/last_head"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/set_back"
+            android:scaleX="1.21"
+
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/last_flower"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:layout_below="@+id/device_first"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/icon_flower"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="我的花盆"
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_right_arrow"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>

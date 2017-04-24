@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0EEE4"
+    android:clickable="false"
+   >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="130dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:id="@+id/pot_back"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                >
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:id="@+id/user_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/fojiateng"/>
+            </FrameLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="每日一花·佛甲草"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView5"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="佛甲草为多桨植物，含水量极高，其叶、茎表皮的角质层具有超常的防止水分蒸发的特性"
+                    android:id="@+id/tv_qianming"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/textView5"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="19dp"
+                    android:layout_alignLeft="@+id/textView5"
+                    android:layout_alignStart="@+id/textView5" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:clickable="true"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="0.25"
+            android:clickable="true"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:layout_height="wrap_content">
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:src="@color/main_bg_color"
+                    android:id="@+id/iv_auto"
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_auto"
+                    android:scaleX="1.3"
+                    android:scaleY="1.3"
+                    android:id="@+id/imageView2" />
+
+            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自动"
+                android:paddingTop="2dp"
+                android:textSize="15dp"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="0.25"
+            android:clickable="true"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@color/main_my"
+                    android:clickable="true"
+                    android:id="@+id/iv_water"
+
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/icon_water"
+                    android:layout_gravity="center"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+
+                    />
+
+            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="浇花"
+                android:paddingTop="2dp"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="0.25"
+            android:clickable="true"
+            android:layout_height="match_parent"
+            >
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@color/gold"
+                    android:id="@+id/lv_light"
+                    android:clickable="true"
+
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_light"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    />
+
+            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="光照"
+                android:paddingTop="2dp"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:clickable="true"
+            android:layout_weight="0.25"
+            android:layout_height="match_parent"
+            >
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@color/darkcyan"
+                    android:clickable="true"
+                    android:id="@+id/iv_photo"
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_photo"/>
+
+            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="状态"
+                android:paddingTop="2dp"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#CECECE"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+
+        android:background="#F0EEE4"/>
+
+
+
+</LinearLayout>

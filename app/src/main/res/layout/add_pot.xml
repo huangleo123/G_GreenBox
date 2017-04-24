@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#F0EEE4"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="left"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_weight="0.01"
+            android:id="@+id/iv_add_pot_back"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/icon_left_run"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="添加花盆"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:id="@+id/tv_add_pot_"
+            android:layout_weight="0.99"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textSize="17sp"
+            android:id="@+id/tv_add_pot_sure"
+            android:textColor="#000000"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#F0EEE4"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+
+                android:gravity="center"
+                android:layout_height="250dp">
+                <ImageView
+                    android:layout_width="118dp"
+                    android:layout_height="220dp"
+                    android:layout_gravity="center|left"
+                    android:src="@mipmap/back_leaf"/>
+                <ImageView
+                    android:layout_width="118dp"
+                    android:layout_height="220dp"
+                    android:layout_gravity="center|right"
+                    android:src="@mipmap/back_leaf"/>
+
+                <ImageView
+                    android:layout_width="140dp"
+                    android:src="@mipmap/big_round"
+                    android:layout_gravity="center"
+                    android:layout_height="140dp"
+                    android:id="@+id/iV_big_round" />
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@mipmap/middle_round"
+                    android:layout_gravity="center"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@mipmap/small_round"
+                    android:clickable="true"
+                    android:id="@+id/iv_pot_image"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:text="点击添加头像"
+                    android:id="@+id/tv_tips_add_pot"
+                    android:textColor="#A2997E"
+                    android:layout_gravity="center"
+                    />
+
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_height="130dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edit_round"
+                    android:layout_margin="50dp"
+                    android:layout_gravity="center">
+
+                </View>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="120dp"
+                    android:layout_height="50dp"
+                    android:text="植物昵称"
+                    android:background="@drawable/edit_round"
+                    android:id="@+id/ed_pot_name" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="60dp"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:src="@mipmap/icon_item_right"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_leaf"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="60dp"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="80dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edit_round"
+                    android:layout_margin="60dp"
+                    android:text="确定"
+                    android:textColor="#A2997E"
+                    android:textSize="20sp"
+                    android:id="@+id/button_add_pot"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/layout_bar"
+            android:background="#FFFFFF">
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="200dp"
+
+                />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>

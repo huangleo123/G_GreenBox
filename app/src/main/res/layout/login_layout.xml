@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- 图标和背景色  #F2F6F9  -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:gravity="center"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/login_bbb"
+            android:layout_gravity="center_vertical"
+            android:scaleY="1.15"
+
+            android:id="@+id/imageView5" />
+
+    </LinearLayout>
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#F0F8E1"-->
+        <!--/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="vertical"
+        >
+
+        <!-- 用户名-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            >
+            <ImageView
+                android:id="@+id/name_logo"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:src="@mipmap/user_login"
+                android:paddingTop="15dp"
+                android:paddingLeft="5dp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#4dda65"
+                android:hint="用户名"
+                android:id="@+id/edit_phone"
+                android:textSize="18sp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/name_logo"
+                android:layout_toEndOf="@+id/name_logo" />
+
+        </RelativeLayout>
+        <!-- 密码-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            >
+            <ImageView
+                android:id="@+id/password_logo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/lock_air"
+                android:paddingTop="10dp"
+                android:paddingLeft="5dp"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_password"
+                android:password="true"
+                android:hint="密码"
+                android:textColor="#4dda65"
+
+                android:textSize="18sp"
+                android:drawableRight="@mipmap/no_look"
+                android:layout_toRightOf="@+id/password_logo"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                />
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:textSize="23sp"
+            android:id="@+id/button_login"
+            android:clickable="true"
+            android:textColor="#4dda65"
+            android:background="@drawable/login_button"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+
+    <!-- 登录平台-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        >
+        <!-- 手机登录-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/register_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/phone_big1"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机登录"
+
+                android:layout_gravity="center"
+                android:paddingTop="5dp"
+                />
+        </LinearLayout>
+        <!-- QQ-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/register_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:src="@mipmap/qq_big"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QQ登录"
+                android:layout_gravity="center"
+                android:paddingTop="5dp"
+                />
+
+        </LinearLayout>
+        <!-- 微博-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/register_blog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/weibo"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微博登录"
+                android:layout_gravity="center"
+                android:paddingTop="5dp"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 用户协议-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="用户协议"-->
+            <!--android:textSize="10sp"-->
+            <!--android:textStyle="italic"-->
+            <!--android:background="#F2F6F9"-->
+            <!--/>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="用户协议"
+            android:id="@+id/tv_user_pact"
+            android:textSize="15sp"
+            android:textColor="#000"
+            android:gravity="center_horizontal"
+            android:paddingTop="4dp"
+            />
+    </LinearLayout>
+</LinearLayout>

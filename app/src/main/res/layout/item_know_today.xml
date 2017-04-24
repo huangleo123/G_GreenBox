@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#cecece"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_height="133dp">
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="0.5">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="#FFFFFF"
+
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_marginTop="14dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:id="@+id/linearLayout"
+            android:weightSum="1">
+            <View
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:background="@color/com_facebook_button_send_background_color"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp">
+
+            </View>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:text="幸运花"
+                android:layout_weight="33.71" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日幸运花"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/linearLayout"
+            android:layout_alignStart="@+id/linearLayout"
+            android:id="@+id/luck" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/facai_100x"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:id="@+id/imageView"
+            android:scaleY="0.8"
+
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/linearLayout"
+            android:layout_toEndOf="@+id/linearLayout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发财树"
+            android:textSize="20sp"
+            android:textColor="@color/main_my"
+            android:id="@+id/tree"
+            android:layout_alignLeft="@+id/luck"
+            android:layout_below="@+id/luck"
+            android:layout_marginTop="55dp" />
+    </RelativeLayout>
+</LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="65dp"
+            android:background="#cecece"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/view">
+
+        </View>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_weight="0.5">
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:background="#ffffff"
+
+                android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="星座幸运花"
+            android:textSize="10sp"
+            android:layout_above="@+id/fuguishu"
+            android:layout_alignLeft="@+id/fuguishu"
+            android:id="@+id/textView4" />
+                <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:scaleY="0.8"
+                android:src="@mipmap/shux100"
+                android:id="@+id/imageView3"
+                android:layout_alignParentBottom="true"
+            />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="富贵树"
+                    android:id="@+id/fuguishu"
+                    android:textSize="20sp"
+                    android:textColor="@color/com_facebook_button_send_background_color"
+                    android:layout_marginBottom="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/imageView3"
+                    android:layout_toEndOf="@+id/imageView3" />
+
+            </RelativeLayout>
+
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

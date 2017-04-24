@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:weightSum="1">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="274dp"
+            app:srcCompat="@mipmap/comhead1"
+            android:scaleY="1.2"
+            android:layout_marginBottom="40dp"
+            android:id="@+id/comhead" />
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="71dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+
+            />
+
+
+        <ImageView
+            android:layout_width="71dp"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:src="@mipmap/comicon"
+            android:id="@+id/imageView4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="春田园长"
+            android:textSize="16sp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="110dp"
+            android:paddingBottom="45dp"
+            />
+
+
+    </FrameLayout>
+
+
+</LinearLayout>
