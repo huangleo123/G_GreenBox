@@ -128,12 +128,86 @@
 
 
     </LinearLayout>
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_weight="0.4"
-        android:background="#dfdf"
+        android:background="#F0EEE4"
         android:layout_height="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.33"
+                android:gravity="center"
+                android:layout_height="match_parent">
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:src="#CAE5E5"/>
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="#92D7E6"/>
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_water"/>
 
-    </FrameLayout>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.33"
+                android:layout_height="match_parent">
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:src="#F0ECAF"/>
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="#F1E960"/>
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_light"/>
+
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.33"
+                android:layout_height="match_parent">
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:src="#DCE7CA"/>
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="#BDDCA2"/>
+                <com.task.dd.greenbox.tool.GradientImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_recode"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
 
 </LinearLayout>
