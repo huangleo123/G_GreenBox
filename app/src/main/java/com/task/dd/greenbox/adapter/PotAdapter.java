@@ -18,16 +18,30 @@ import com.task.dd.greenbox.bean.Pot_User_Bean;
  * Created by dd on 2016/12/10.
  */
 
-public class PotAdapter extends BaseAdapter {
+public class PotAdapter extends BaseAdapter implements  View.OnClickListener {
 
 
     private Context context;
     private PotBean potBean;
     private static final String TAG = "PotAdapter";
-    public PotAdapter (Context context,PotBean potBean) {
+    private Callback mCallback;
+
+    public interface Callback{
+        public void click(View v);
+    }
+    public PotAdapter (Context context,PotBean potBean,Callback callback) {
         this.context=context;
         this.potBean=potBean;
+        mCallback=callback;
     }
+
+    @Override
+    public void onClick(View v) {
+        mCallback.click(v);
+    }
+
+
+
 
 
 
@@ -66,8 +80,10 @@ public class PotAdapter extends BaseAdapter {
       holder.potname.setText(potBean.getName_List().get(position));
         return view;
     }
+
     private class ViewHolder {
 
         public TextView potname;
     }
+
 }

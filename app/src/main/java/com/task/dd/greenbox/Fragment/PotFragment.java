@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.widget.AdapterView.OnItemClickListener;
 
 import static com.task.dd.greenbox.MainActivity.REQUEST_CODE;
 
@@ -32,7 +34,7 @@ import static com.task.dd.greenbox.MainActivity.REQUEST_CODE;
  * Created by dd on 2016/12/9.
  */
 
-public class PotFragment extends Fragment {
+public class PotFragment extends Fragment implements OnItemClickListener,PotAdapter.Callback {
     private ListView potListView;
     private List<String> name_list;
     private ImageView addImageview;
@@ -57,8 +59,9 @@ public class PotFragment extends Fragment {
         potBean.setName_List(name_list);
         addHeadView();
 
-        PotAdapter adapter=new PotAdapter(getContext(),potBean);
+        PotAdapter adapter=new PotAdapter(getContext(),potBean,this);
         potListView.setAdapter(adapter);
+        potListView.setOnItemClickListener(this);
         addImageview= (ImageView) view.findViewById(R.id.iv_add);
         addImageview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,5 +136,16 @@ public class PotFragment extends Fragment {
                 }
             }
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getContext(),"item被点击第"+position,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void click(View v) {
+        Toast.makeText(getContext(),"item被点击",Toast.LENGTH_LONG).show();
+
     }
 }
