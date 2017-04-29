@@ -11,12 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.task.dd.greenbox.Activity.AddPotActivity;
+import com.task.dd.greenbox.Activity.ControlActivity;
 import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.adapter.PotAdapter;
+import com.task.dd.greenbox.asyntask.GetPotMessageAsyncTask;
 import com.task.dd.greenbox.bean.PotBean;
 import com.task.dd.greenbox.tool.FastBlur;
 import com.task.dd.greenbox.tool.GradientImageView;
@@ -38,39 +42,45 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
     private ListView potListView;
     private List<String> name_list;
     private ImageView addImageview;
-    private PotBean potBean;
+    private PotBean mpotBean=new PotBean();
     private ImageView pot_head_back;//头部虚化的位置，当然以imageView来显示
     private Bitmap bitmap;//头部虚化资源文件
     private FastBlur fastBlur=new FastBlur();//头部虚化的方法文件
     private GradientImageView auto_image;
+    private PotAdapter adapter;
+    private ProgressBar progressBar;
+    private LinearLayout linearLayout;
     private static final String POT_ID_URL="POT_ID_URL";
+    private static final String POT_ID="POT_ID";
+    //尝试使用返回name_list而不是bean；思考如何实现点击修改昵称
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmemt_pot,container,false);
         potListView= (ListView) view.findViewById(R.id.lv_fragment_pot);
+        //progressBar= (ProgressBar) view.findViewById(R.id.progressbar_pot);
+       // linearLayout= (LinearLayout) view.findViewById(R.id.ll_pot_pb_pot);
+        getPotMessage();
         ZXingLibrary.initDisplayOpinion(getContext());
-
-        name_list=new ArrayList<>();
-        name_list.add("我的小花盆");
-        name_list.add("我的小花菜");
-
-        potBean=new PotBean();
-        potBean.setName_List(name_list);
         addHeadView();
+        name_list=new ArrayList<>();
+        name_list.add("0");
+        mpotBean.setName_list(name_list);
+        adapter=new PotAdapter(getContext(),mpotBean,this);
 
-        PotAdapter adapter=new PotAdapter(getContext(),potBean,this);
         potListView.setAdapter(adapter);
         potListView.setOnItemClickListener(this);
+
+
+
         addImageview= (ImageView) view.findViewById(R.id.iv_add);
         addImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"请点击右上角扫描添加设备",Toast.LENGTH_SHORT).show();
-                //这里执行的是调用摄像头然后
-
+                //点击了添加按钮
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
-
                 startActivityForResult(intent, REQUEST_CODE);
 
             }
@@ -78,6 +88,27 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
 
 
         return view;
+    }
+
+   private void getPotMessage() {
+        GetPotMessageAsyncTask getPotMessageAsyncTask = new GetPotMessageAsyncTask(getContext(),potListView);
+        String getIdUrl = "https://api.fengqiaoju.com/v1/articles/update/?page=1";
+        getPotMessageAsyncTask.execute(getIdUrl);
+        getPotMessageAsyncTask.setFinishListener(new GetPotMessageAsyncTask.DataFinishListener() {
+            @Override
+            public void dataFinishSuccessfully(PotBean potBean) {
+                mpotBean=potBean;
+                Toast.makeText(getContext(),"获取花盆信息成功",Toast.LENGTH_LONG).show();
+                adapter.refreshData(mpotBean);
+
+            }
+
+            @Override
+            public void dataFinishFailed() {
+                Toast.makeText(getContext(),"获取花盆信息失败，检查网络",Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     private void addHeadView() {
@@ -140,7 +171,13 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //向服务器提交该用户的花盆，服务器返回花盆的id
+        String PotID="id";
+
         Toast.makeText(getContext(),"item被点击第"+position,Toast.LENGTH_LONG).show();
+        Intent i= new Intent(getActivity(),ControlActivity.class);
+        i.putExtra(POT_ID,PotID);
+        startActivity(i);
     }
 
     @Override

@@ -43,6 +43,9 @@
         <activity android:name=".Activity.AddPotActivity">
 
         </activity>
+        <activity android:name=".Activity.ControlActivity">
+
+        </activity>
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

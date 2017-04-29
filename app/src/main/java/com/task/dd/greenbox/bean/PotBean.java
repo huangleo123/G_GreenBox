@@ -8,51 +8,23 @@ import java.util.List;
  * Created by dd on 2016/9/26.
  */
 public class PotBean {
-    private String temperature;
-    private String humidity;
-    private String sunshine;
-    private String result;
-    private List<String> name_List;
+   private List<String> id_list;
+    private List<String> name_list;
 
-    public List<String> getName_List() {
-        return name_List;
+    public List<String> getName_list() {
+        return name_list;
     }
 
-    public void setName_List(List<String> name_List) {
-        this.name_List = name_List;
+    public void setName_list(List<String> name_list) {
+        this.name_list = name_list;
     }
 
-    public String getResult() {
-        return result;
+    public List<String> getId_list() {
+
+        return id_list;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setId_list(List<String> id_list) {
+        this.id_list = id_list;
     }
-
-    public String getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
-    }
-
-    public String getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(String humidity) {
-        this.humidity = humidity;
-    }
-
-    public String getSunshine() {
-        return sunshine;
-    }
-
-    public void setSunshine(String sunshine) {
-        this.sunshine = sunshine;
-    }
-
-
 }

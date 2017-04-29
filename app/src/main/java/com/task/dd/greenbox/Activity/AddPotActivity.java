@@ -34,6 +34,13 @@ public class AddPotActivity extends Activity {
     private ProgressBar progressBar;
     private LinearLayout linearLayout;
     private static final String POT_ID_URL="POT_ID_URL";
+    private String loginUrl="http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/wx/login?number=111111&password=1111";//登录成功就返回用户ID
+    private String selPot="http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/wx/search?id=27";//通过用户的ID返回花盆名字
+    private String addPot ="http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/wx/sell?name=昵称&id=用户&花盆id";
+    private String nameUrl="http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/wx/sell?&id=花盆id";
+
+    private  String url ="http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/wx/sell?id";
+
 
 
     @Override

@@ -1,18 +1,15 @@
 package com.task.dd.greenbox.adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.bean.PotBean;
-import com.task.dd.greenbox.bean.Pot_User_Bean;
 
 /**展示花盆列表的listView
  * Created by dd on 2016/12/10.
@@ -26,10 +23,15 @@ public class PotAdapter extends BaseAdapter implements  View.OnClickListener {
     private static final String TAG = "PotAdapter";
     private Callback mCallback;
 
+
     public interface Callback{
         public void click(View v);
     }
-    public PotAdapter (Context context,PotBean potBean,Callback callback) {
+    public void refreshData(PotBean potBean) {
+        this.potBean=potBean;
+        notifyDataSetChanged();
+    }
+    public PotAdapter (Context context,PotBean potBean, Callback callback) {
         this.context=context;
         this.potBean=potBean;
         mCallback=callback;
@@ -46,15 +48,14 @@ public class PotAdapter extends BaseAdapter implements  View.OnClickListener {
 
 
 
-
     @Override
     public int getCount() {
-        return potBean.getName_List().size();
+        return potBean.getName_list().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return potBean.getName_List()==null?null:potBean.getName_List().get(position);
+        return potBean.getName_list()==null?null:potBean.getName_list().get(position);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class PotAdapter extends BaseAdapter implements  View.OnClickListener {
             holder =new ViewHolder();
             holder.potname= (TextView) view.findViewById(R.id.tv_my);
         }
-      holder.potname.setText(potBean.getName_List().get(position));
+      holder.potname.setText(potBean.getName_list().get(position));
         return view;
     }
 

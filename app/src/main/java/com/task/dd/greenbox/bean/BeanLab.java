@@ -19,6 +19,7 @@ public class BeanLab {
     private Context mcontext;
     private SQLiteDatabase mDatabase;
 
+
     public  static  BeanLab get(Context context){
         if (sBeanLab==null){
         sBeanLab=new BeanLab(context);
@@ -27,7 +28,7 @@ public class BeanLab {
         return sBeanLab;
     }
 
-    public BeanLab (Context context){
+    private BeanLab (Context context){
         mcontext=context.getApplicationContext();
         mDatabase=new BeanBaseHelper(mcontext).getWritableDatabase();
 
