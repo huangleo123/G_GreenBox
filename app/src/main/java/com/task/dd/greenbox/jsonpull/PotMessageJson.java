@@ -42,8 +42,8 @@ public class PotMessageJson {
         switvh=new ArrayList<>();
         JSONObject jsonObject=new JSONObject(jsonString);
         JSONObject valueJsonObject=jsonObject.getJSONObject("value");
-        String lignt_string=valueJsonObject.getString("light");
-        String pumb_string=valueJsonObject.getString("pumb");
+        String lignt_string=valueJsonObject.getString("lightset");
+        String pumb_string=valueJsonObject.getString("soil_set");
         switvh.add(lignt_string);
         switvh.add(pumb_string);
         return switvh;

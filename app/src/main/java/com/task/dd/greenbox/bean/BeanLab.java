@@ -10,7 +10,7 @@ import com.task.dd.greenbox.database.DBSchema;
 
 import java.util.UUID;
 
-/**
+/**单例和数据库
  * Created by dd on 2017/3/20.
  */
 

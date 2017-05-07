@@ -1,7 +1,10 @@
 package com.task.dd.greenbox.Activity;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,8 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.bean.Pot_Message;
+import com.task.dd.greenbox.bean.SingleBean;
 import com.task.dd.greenbox.jsonpull.PotMessageJson;
 import com.task.dd.greenbox.tool.GradientImageView;
 import com.task.dd.greenbox.tool.IOSSwitchView;
@@ -25,8 +33,10 @@ import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**花盆的控制
@@ -54,6 +64,10 @@ public class ControlActivity extends Activity{
     private IOSSwitchView water_switch;
 
     private Pot_Message pot_message;
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final String TAG = "MainActivity";
+    private SingleBean singlebean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +93,54 @@ public class ControlActivity extends Activity{
 
         //进入马上刷新数据
         getMessage();
+
         setListener();
 
 
+
     }
+
+    private void SetSwitch(final String light, final String pump) throws IOException {
+
+        String jsonSting = "{\"key\":\"inbox\",\"value\":{\"lightset\":\"" + light + "\",\"soil_set\":\"" + pump + "\"}}";
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestbody = RequestBody.create(JSON, jsonSting);
+        Request request = new Request.Builder()
+                .url("http://api.yeelink.net/v1.0/device/354593/sensor/400901/datapoints")
+                .post(requestbody)
+                .addHeader("u-apikey", "0ad358217706ef3af6cbe7833a1835ba")
+                .addHeader("cache-control", "no-cache")
+                .build();
+       // Response response = client.newCall(request).execute();
+        Call call= client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: " + e);
+                ControlActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),"开关失效，请检查网络",Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.i(TAG, "onResponse: " + response.body().string());
+                ControlActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),"开关成功设置为light"+light+"水"+pump,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
+    }
+
+
 
     private void setListener() {
         backImageView.setOnClickListener(new View.OnClickListener() {
@@ -97,10 +155,130 @@ public class ControlActivity extends Activity{
                 //点击改变颜色
             }
         });
+        water_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+            @Override
+            public void onStateSwitched(boolean isOn) throws IOException {
+                if(isOn){
+                    //水开启的状态下
+                    water_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+                        @Override
+                        public void onStateSwitched(boolean isOn) throws IOException {
+                            if (isOn){
+                                Toast.makeText(getApplicationContext(),"水控制开启的状态开",Toast.LENGTH_LONG).show();
+                                String light=singlebean.getSwitch_list().get(0);
+                                Toast.makeText(getApplicationContext(),"灯是"+light,Toast.LENGTH_LONG).show();
+                                singlebean.getSwitch_list().set(1,"1");
+                                SetSwitch(light,"1");
+
+                            }else{
+                                //开的状态关
+                                String light=singlebean.getSwitch_list().get(0);
+                                SetSwitch(light,"0");
+                                singlebean.getSwitch_list().set(1,"0");
+                                Toast.makeText(getApplicationContext(),"灯是"+light,Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"水控制开的状态关",Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+
+                }else{
+
+                    //关闭状态下
+                    water_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+                        @Override
+                        public void onStateSwitched(boolean isOn) throws IOException {
+                            if (isOn){
+                                Toast.makeText(getApplicationContext(),"水控制关闭下执行打开",Toast.LENGTH_LONG).show();
+                                //关闭下执行打开
+                                String light=singlebean.getSwitch_list().get(0);
+                                SetSwitch(light,"1");
+                                singlebean.getSwitch_list().set(1,"1");
+                                Toast.makeText(getApplicationContext(),"灯是"+light,Toast.LENGTH_LONG).show();
+                            }else{
+                                //关闭下执行关闭
+                                Toast.makeText(getApplicationContext(),"水控制关闭下执行关闭",Toast.LENGTH_LONG).show();
+                                String light=singlebean.getSwitch_list().get(0);
+                                SetSwitch(light,"0");
+                                singlebean.getSwitch_list().set(1,"0");
+                                Toast.makeText(getApplicationContext(),"灯是"+light,Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                }
+
+            }
+        });
+        light_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+            @Override
+            public void onStateSwitched(boolean isOn) throws IOException {
+                if (isOn){
+                    //开
+                    water_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+                        @Override
+                        public void onStateSwitched(boolean isOn) throws IOException {
+                            if (isOn){
+                                //开的状态开
+                                String water =singlebean.getSwitch_list().get(1);
+                                SetSwitch("1",water);
+                                singlebean.getSwitch_list().set(0,"1");
+                                Toast.makeText(getApplicationContext(),"灯控制开的状态开",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
+
+                            }else {
+                                //开的状态关
+                                String water =singlebean.getSwitch_list().get(1);
+                                SetSwitch("0",water);
+                                singlebean.getSwitch_list().set(0,"0");
+                                Toast.makeText(getApplicationContext(),"灯控制开的状态关",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+
+                }else {
+                    //关
+                    light_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+                        @Override
+                        public void onStateSwitched(boolean isOn) throws IOException {
+                            if (isOn){
+                                //关闭下打开
+                                String water=singlebean.getSwitch_list().get(1);
+                                SetSwitch("1",water);
+                                singlebean.getSwitch_list().set(0,"1");
+                                Toast.makeText(getApplicationContext(),"灯控制关闭下打开",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
+                            }else {
+                                //关闭下关闭
+                                String water=singlebean.getSwitch_list().get(1);
+                                SetSwitch("0",water);
+                                singlebean.getSwitch_list().set(0,"0");
+                                Toast.makeText(getApplicationContext(),"灯控制关闭下关闭",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+
     }
 
     private void getMessage() {
-        //采用异步的方式
+        //用okHttp框架,以下都采用异步的方式
+        //获取花盆传感器的信息
+        getPotStatus();
+        //获取开关状态信息
+        getSwitchStatus();
+        getPhoto();
+
+
+    }
+
+    private void getPotStatus() {
         OkHttpClient client=new OkHttpClient();
         Request request = new Request.Builder()
                 //<device_id>是354593
@@ -117,7 +295,7 @@ public class ControlActivity extends Activity{
                 ControlActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(),"访问失败",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"获取花盆传感器失败，检查网络",Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -131,7 +309,7 @@ public class ControlActivity extends Activity{
                 try {
                     pot_message=potJson.messagePull(jsonString);
 
-                    //refreshData(pot_message);//更新数据
+
                     //下面通过这个方法让子线程在子线程更新UI
                     ControlActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -140,16 +318,14 @@ public class ControlActivity extends Activity{
                         }
                     });
 
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //Toast.makeText(getApplicationContext(),htmlStr,Toast.LENGTH_LONG).show();
-
             }
         });
-        //获取开关状态信息
+    }
+
+    private void getSwitchStatus() {
         OkHttpClient button=new OkHttpClient();
         Request button_request = new Request.Builder()
                 .url("http://api.yeelink.net/v1.0/device/354593/sensor/400901/datapoints")
@@ -164,9 +340,7 @@ public class ControlActivity extends Activity{
                 ControlActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(),"访问失败",Toast.LENGTH_LONG).show();
-
-
+                        Toast.makeText(getApplicationContext(),"获取按钮失败，检查网络",Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -177,25 +351,45 @@ public class ControlActivity extends Activity{
                 String jsonString =  response.body().string();
                 PotMessageJson potJson=new PotMessageJson();
                 try {
+                    //根据返回的数据更改按钮的属性。
                     switch_list=potJson.SwitvhPull(jsonString);
+                     singlebean= SingleBean.get(switch_list);
                     ControlActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
                             String light=switch_list.get(0);
                             String water=switch_list.get(1);
+                            Toast.makeText(getApplicationContext(),"获取到light是"+light+"获取到water是"+water,Toast.LENGTH_LONG).show();
                             if (light.equals("1")){
-                                light_switch.setOn(true);
+                                try {
+                                    light_switch.setOn(true);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }else {
-                                light_switch.setOn(false);
+                                try {
+                                    light_switch.setOn(false);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             if (water.equals("1")){
-                                water_switch.setOn(true);
+                                try {
+                                    water_switch.setOn(true);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }else {
-                                water_switch.setOn(false);
+                                try {
+                                    water_switch.setOn(false);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
                             }
 
-                            showSwitch();
+
                         }
                     });
 
@@ -206,13 +400,81 @@ public class ControlActivity extends Activity{
                 }
 
 
+
         });
-
-
     }
+    public void getPhoto() {
+        //不知道为什么使用Glide无法加载图片，该url下。
+        Glide.with(getApplicationContext())
+                .load("http://api.yeelink.net/v1.0/device/354593/sensor/400698/photo/content")
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                       // Log.d(TAG, "onException: " + e.toString()+"  model:"+model+" isFirstResource: "+isFirstResource);
+                        Toast.makeText(getApplication(),"加载失败",Toast.LENGTH_LONG).show();
+                        imageView.setImageResource(R.mipmap.d);
+                        return false;
+                    }
 
-    private void showSwitch() {
-    }
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                       // Log.e(TAG, "isFromMemoryCache:"+isFromMemoryCache+"  model:"+model+" isFirstResource: "+isFirstResource);
+
+                        return false;
+
+                    }
+                })
+                .placeholder(R.mipmap.m)
+                .centerCrop()
+                .into(imageView);
+
+       /* OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://www.huabaike.com/uploads/allimg/sltimg/201703/bp_58c6624832cd5.jpg")
+                //http://api.yeelink.net/v1.0/device/354593/sensor/400698/photo/content
+                .get()
+                .addHeader("u-apikey", "0ad358217706ef3af6cbe7833a1835ba")
+                .addHeader("cache-control", "no-cache")
+                .build();
+        Call call= client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //网络图片请求成功，更新到主线程的ImageView
+
+                        Toast.makeText(getApplication(),"加载失败",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                byte[] bytes = response.body().bytes();
+                final Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //网络图片请求成功，更新到主线程的ImageView
+                        imageView.setImageBitmap(bmp);
+
+                        Toast.makeText(getApplication(),"加载成功",Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+
+            }
+        });*/
+
+
+
+
+
+        }
+
 
     private void showMessage() {
         String text=pot_message.getWater_level();
@@ -223,10 +485,9 @@ public class ControlActivity extends Activity{
         tv_sun.setText(pot_message.getSun());
         tv_temperature.setText(pot_message.getTemperature());
         tv_soil_humidity.setText(pot_message.getSoil_humidity());
-
+        //注意：数据支持整数，如果是小数的话将会报错
         pb_soil_humidity.setProgress(Integer.valueOf(pot_message.getSoil_humidity()));
         pb_humidity.setProgress(Integer.valueOf(pot_message.getHumidity()));
-
         pb_water.setProgress(Integer.valueOf(pot_message.getWater_level()));
         pb_sunshine.setProgress(Integer.valueOf(pot_message.getSun()));
         pb_temperature.setProgress(Integer.valueOf(pot_message.getTemperature()));
@@ -266,6 +527,7 @@ public class ControlActivity extends Activity{
             System.exit(0);
         }
     }
+
 
 
 

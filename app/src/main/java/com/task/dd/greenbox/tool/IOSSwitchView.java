@@ -19,6 +19,8 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.task.dd.greenbox.R;
 
+import java.io.IOException;
+
 
 /**
  * Created by Administrator on 2016/9/21 0021.
@@ -217,7 +219,11 @@ public class IOSSwitchView extends View {
                 mThumbExpandAnimator.start();
 
                 if (mOnSwitchStateChangeListener != null && preIsOn != isOn) {
-                    mOnSwitchStateChangeListener.onStateSwitched(isOn);
+                    try {
+                        mOnSwitchStateChangeListener.onStateSwitched(isOn);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
 
                 return true;
@@ -322,7 +328,11 @@ public class IOSSwitchView extends View {
                 isOn = thumbState;
 
                 if (mOnSwitchStateChangeListener != null && isOn != preIsOn) {
-                    mOnSwitchStateChangeListener.onStateSwitched(isOn);
+                    try {
+                        mOnSwitchStateChangeListener.onStateSwitched(isOn);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 break;
@@ -463,11 +473,11 @@ public class IOSSwitchView extends View {
      *
      * @param on
      */
-    public void setOn(boolean on) {
+    public void setOn(boolean on) throws IOException {
         setOn(on, false);
     }
 
-    public void setOn(boolean on, boolean animate) {
+    public void setOn(boolean on, boolean animate) throws IOException {
         // TODO: 15/10/16 设置是否选中
        // if (isOn = on) return;
 
@@ -545,7 +555,7 @@ public class IOSSwitchView extends View {
          *
          * @param isOn
          */
-        public void onStateSwitched(boolean isOn);
+        public void onStateSwitched(boolean isOn) throws IOException;
     }
 
 }
