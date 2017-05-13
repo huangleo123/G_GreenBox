@@ -27,7 +27,7 @@
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:text="我的榴莲"/>
+            android:text="仙人掌"/>
         <TextView
             android:layout_width="50dp"
             android:text=""
@@ -58,6 +58,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="15dp"
                 android:id="@+id/iv_show"
+                android:scaleY="1.1"
 
                 />
 
@@ -88,9 +89,10 @@
                        android:indeterminate="false"
                        android:indeterminateOnly="false"
                        android:max="100"
-                       android:progress="86"
+                       android:progress="24"
                        android:layout_marginLeft="20dp"
                        android:progressDrawable="@drawable/progress_vertical"
+                       android:background="#F0EEE4"
                        android:layout_weight="0.2" />
                    <ProgressBar
                        android:id="@+id/progressbar_temperature"
@@ -102,6 +104,8 @@
                        android:progress="26"
                        android:layout_marginLeft="20dp"
                        android:progressDrawable="@drawable/progress_vertical"
+                       android:background="#F0EEE4"
+
 
                        android:layout_weight="0.2" />
                    <ProgressBar
@@ -114,6 +118,7 @@
                        android:layout_marginLeft="20dp"
                        android:progress="32"
                        android:progressDrawable="@drawable/progress_vertical"
+                       android:background="#F0EEE4"
                        android:layout_weight="0.2" />
                    <ProgressBar
                        android:id="@+id/progressbar_soil"
@@ -125,6 +130,7 @@
                        android:max="100"
                        android:progress="40"
                        android:progressDrawable="@drawable/progress_vertical"
+                       android:background="#F0EEE4"
                        android:layout_weight="0.2" />
                    <ProgressBar
                        android:id="@+id/progressbar_water"
@@ -136,6 +142,7 @@
                        android:progress="4"
                        android:layout_marginLeft="20dp"
                        android:progressDrawable="@drawable/progress_vertical_water"
+                       android:background="#F0EEE4"
 
                        android:layout_marginRight="20dp"
                        android:layout_weight="0.2" />
@@ -151,7 +158,7 @@
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
                        android:text="KLX"
-                       android:textSize="15sp"
+                       android:textSize="13sp"
                        android:gravity="center"
                        android:textColor="@color/white"
                        android:layout_weight="0.2"/>
@@ -159,7 +166,7 @@
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
                        android:text="°C"
-                       android:textSize="15sp"
+                       android:textSize="13sp"
                        android:gravity="center"
                        android:textColor="@color/white"
                        android:layout_weight="0.2"/>
@@ -167,23 +174,26 @@
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
                        android:text="%"
-                       android:textSize="15sp"
+                       android:textSize="13sp"
                        android:gravity="center"
                        android:textColor="@color/white"
                        android:layout_weight="0.2"/>
+
                    <TextView
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
                        android:text="%"
-                       android:textSize="15sp"
+                       android:textSize="13sp"
                        android:gravity="center"
                        android:textColor="@color/white"
-                       android:layout_weight="0.2"/>
+                       android:layout_weight="0.2"
+                       android:id="@+id/textView3" />
+
                    <TextView
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
                        android:text="LeV"
-                       android:textSize="15sp"
+                       android:textSize="13sp"
                        android:gravity="center"
                        android:textColor="@color/white"
                        android:layout_weight="0.2"/>
@@ -258,7 +268,7 @@
                    android:layout_height="match_parent"
                    android:layout_weight="0.2"
                    android:gravity="center"
-                   android:textSize="16sp"
+                   android:textSize="14sp"
                    android:textColor="@color/black"
                    android:text="光照"/>
 
@@ -267,7 +277,7 @@
                    android:layout_height="match_parent"
                    android:layout_weight="0.2"
                    android:gravity="center"
-                   android:textSize="16sp"
+                   android:textSize="14sp"
                    android:textColor="@color/black"
                    android:text="温度"
                    android:id="@+id/textView2" />
@@ -277,23 +287,23 @@
                    android:layout_height="match_parent"
                    android:layout_weight="0.2"
                    android:gravity="center"
-                   android:textSize="16sp"
+                   android:textSize="14sp"
                    android:textColor="@color/black"
-                   android:text="温度"/>
+                   android:text="环境湿度"/>
                <TextView
                    android:layout_width="0dp"
                    android:layout_height="match_parent"
                    android:layout_weight="0.2"
                    android:gravity="center"
-                   android:textSize="16sp"
+                   android:textSize="14sp"
                    android:textColor="@color/black"
-                   android:text="温度"/>
+                   android:text="土壤湿度"/>
                <TextView
                    android:layout_width="0dp"
                    android:layout_height="match_parent"
                    android:layout_weight="0.2"
                    android:gravity="center"
-                   android:textSize="16sp"
+                   android:textSize="14sp"
                    android:textColor="@color/black"
                    android:text="水位"/>
 
@@ -332,14 +342,18 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:src="#92D7E6"/>
+                    android:id="@+id/iv_water_back"
+                    android:clickable="true"
+
+                   />
                 <com.task.dd.greenbox.tool.GradientImageView
-                    android:layout_width="40dp"
+                    android:layout_width="38dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:clickable="true"
                     android:id="@+id/iv_water_button"
+                    android:clickable="true"
                     android:src="@mipmap/icon_water"/>
+
 
             </FrameLayout>
             <FrameLayout
@@ -355,6 +369,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:id="@+id/iv_sunshine_back"
                     android:src="#F1E960"/>
                 <com.task.dd.greenbox.tool.GradientImageView
                     android:layout_width="40dp"
@@ -399,13 +414,13 @@
                 android:layout_weight="0.33"
                 android:layout_height="match_parent"
                 >
-                <com.task.dd.greenbox.tool.IOSSwitchView
-                    android:id="@+id/switch_water"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    app:thumbTintColor="#fff"
-                    app:tintColor="#92D7E6"
-                  />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:text="浇花"
+                    android:gravity="center"
+                    android:layout_weight="0.33"/>
             </LinearLayout>
 
 
@@ -416,13 +431,14 @@
                 android:layout_weight="0.33"
                 android:layout_height="match_parent"
                 >
-                <com.task.dd.greenbox.tool.IOSSwitchView
-                    android:id="@+id/switch_light"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    app:thumbTintColor="#fff"
-                    app:tintColor="#F1E960"
-                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:text="光照"
+                    android:gravity="center"
+                    android:layout_weight="0.33"/>
+
             </LinearLayout>
             <TextView
                 android:layout_width="0dp"

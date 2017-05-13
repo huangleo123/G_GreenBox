@@ -12,10 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.bean.Pot_Message;
 import com.task.dd.greenbox.bean.SingleBean;
@@ -26,7 +22,6 @@ import com.task.dd.greenbox.tool.IOSSwitchView;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,7 +47,9 @@ public class ControlActivity extends Activity{
     private ProgressBar pb_water;//水高度条
     private ProgressBar pb_soil_humidity;
     private GradientImageView iv_water;//水图标
+    private GradientImageView iv_water_back;//水图标背景
     private GradientImageView iv_sunshine;//阳光图片
+    private GradientImageView iv_sunshine_back;//
     private ImageView iv_recode;//记录图标
     private TextView tv_sun;
     private TextView tv_water;
@@ -61,7 +58,8 @@ public class ControlActivity extends Activity{
     private TextView tv_soil_humidity;
     private List<String> switch_list;
     private IOSSwitchView light_switch;
-    private IOSSwitchView water_switch;
+    private  int i=0;
+
 
     private Pot_Message pot_message;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -73,36 +71,54 @@ public class ControlActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_control);
         imageView= (ImageView) findViewById(R.id.iv_show);
-        backImageView= (ImageView) findViewById(R.id.iv_back);
+        backImageView= (ImageView) findViewById(R.id.iv_back);//返回
         pb_temperature= (ProgressBar) findViewById(R.id.progressbar_temperature);
         pb_sunshine= (ProgressBar) findViewById(R.id.progressbar_sun);
         pb_humidity= (ProgressBar) findViewById(R.id.progressbar_humidity);
         pb_water= (ProgressBar) findViewById(R.id.progressbar_water);
         pb_soil_humidity= (ProgressBar) findViewById(R.id.progressbar_soil);
-        iv_water= (GradientImageView) findViewById(R.id.iv_water_button);
-        iv_sunshine= (GradientImageView) findViewById(R.id.iv_sun_button);
+        iv_water= (GradientImageView) findViewById(R.id.iv_water_button);//水按钮
+        iv_water_back= (GradientImageView) findViewById(R.id.iv_water_back);//水背景
+        iv_sunshine_back= (GradientImageView) findViewById(R.id.iv_sunshine_back);//光照背景
+        iv_sunshine= (GradientImageView) findViewById(R.id.iv_sun_button);//光照按钮
         iv_recode= (ImageView) findViewById(R.id.iv_recode_button);
         tv_sun= (TextView) findViewById(R.id.tv_sun);
         tv_temperature= (TextView) findViewById(R.id.tv_temperature);
         tv_humidity= (TextView) findViewById(R.id.tv_humidity);
         tv_water= (TextView) findViewById(R.id.tv_water);
         tv_soil_humidity= (TextView) findViewById(R.id.tv_soil_humidity);
-        light_switch= (IOSSwitchView) findViewById(R.id.switch_light);
-        water_switch= (IOSSwitchView) findViewById(R.id.switch_water);
+
+        //water_switch= (IOSSwitchView) findViewById(R.id.switch_water);
 
 
         //进入马上刷新数据
         getMessage();
 
+
         setListener();
+
+
+
 
 
 
     }
 
+    private void setButton() {
+        //判断light的状态
+        String light=singlebean.getSwitch_list().get(0);
+        if (light.equals("0")){
+            iv_sunshine_back.setImageDrawable(getResources().getDrawable(R.drawable.button_light_bg_normal));
+
+        } else {
+            iv_sunshine_back.setImageDrawable(getResources().getDrawable(R.drawable.button_light_bg_focused));
+        }
+    }
+
     private void SetSwitch(final String light, final String pump) throws IOException {
 
-        String jsonSting = "{\"key\":\"inbox\",\"value\":{\"lightset\":\"" + light + "\",\"soil_set\":\"" + pump + "\"}}";
+
+        String jsonSting = "{\"key\":\"inbox\",\"value\":{\"light\":\"" + light + "\",\"pumb\":\"" + pump + "\"}}";
         OkHttpClient client = new OkHttpClient();
         RequestBody requestbody = RequestBody.create(JSON, jsonSting);
         Request request = new Request.Builder()
@@ -128,13 +144,18 @@ public class ControlActivity extends Activity{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i(TAG, "onResponse: " + response.body().string());
-                ControlActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),"开关成功设置为light"+light+"水"+pump,Toast.LENGTH_LONG).show();
-                    }
-                });
+                Log.i(TAG, "onResponse: " + response.code());
+                int code= response.code();
+                if (code!=200){
+                    ControlActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),"点击太快，访问失败", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
 
             }
         });
@@ -150,12 +171,70 @@ public class ControlActivity extends Activity{
             }
         });
         iv_water.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                //点击改变颜色
+
+                String light=singlebean.getSwitch_list().get(0);
+                iv_water_back.setImageDrawable(getResources().getDrawable(R.drawable.button_bg_focused));
+                TimerTask task=new TimerTask() {
+                    @Override
+                    public void run() {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //网络图片请求成功，更新到主线程的ImageView
+                                iv_water_back.setImageDrawable(getResources().getDrawable(R.drawable.button_bg_normal));
+
+                            }
+                        });
+
+                    }
+
+                };
+                Timer timer = new Timer();
+                timer.schedule(task,5000);
+                try {
+                    SetSwitch(light,"1");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
-        water_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+
+        iv_sunshine.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                String light=singlebean.getSwitch_list().get(0);
+                if (light.equals("0")){
+                    iv_sunshine_back.setImageDrawable(getResources().getDrawable(R.drawable.button_light_bg_focused));
+                    try {
+                        SetSwitch("1","0");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    singlebean.getSwitch_list().set(0,"1");
+
+
+                } else{
+                    iv_sunshine_back.setImageDrawable(getResources().getDrawable(R.drawable.button_light_bg_normal));
+                    try {
+                        SetSwitch("0","0");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    singlebean.getSwitch_list().set(0,"0");
+
+
+                }
+                }
+
+        });
+       /* water_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
             @Override
             public void onStateSwitched(boolean isOn) throws IOException {
                 if(isOn){
@@ -209,19 +288,19 @@ public class ControlActivity extends Activity{
                 }
 
             }
-        });
-        light_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+        });*/
+       /* light_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
             @Override
             public void onStateSwitched(boolean isOn) throws IOException {
                 if (isOn){
                     //开
-                    water_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
+                    light_switch.setOnSwitchStateChangeListener(new IOSSwitchView.OnSwitchStateChangeListener() {
                         @Override
                         public void onStateSwitched(boolean isOn) throws IOException {
                             if (isOn){
                                 //开的状态开
                                 String water =singlebean.getSwitch_list().get(1);
-                                SetSwitch("1",water);
+                                SetSwitch("1","0");
                                 singlebean.getSwitch_list().set(0,"1");
                                 Toast.makeText(getApplicationContext(),"灯控制开的状态开",Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
@@ -229,7 +308,7 @@ public class ControlActivity extends Activity{
                             }else {
                                 //开的状态关
                                 String water =singlebean.getSwitch_list().get(1);
-                                SetSwitch("0",water);
+                                SetSwitch("0","0");
                                 singlebean.getSwitch_list().set(0,"0");
                                 Toast.makeText(getApplicationContext(),"灯控制开的状态关",Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
@@ -246,14 +325,14 @@ public class ControlActivity extends Activity{
                             if (isOn){
                                 //关闭下打开
                                 String water=singlebean.getSwitch_list().get(1);
-                                SetSwitch("1",water);
+                                SetSwitch("1","0");
                                 singlebean.getSwitch_list().set(0,"1");
                                 Toast.makeText(getApplicationContext(),"灯控制关闭下打开",Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
                             }else {
                                 //关闭下关闭
                                 String water=singlebean.getSwitch_list().get(1);
-                                SetSwitch("0",water);
+                                SetSwitch("0","0");
                                 singlebean.getSwitch_list().set(0,"0");
                                 Toast.makeText(getApplicationContext(),"灯控制关闭下关闭",Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(),"水是"+water,Toast.LENGTH_LONG).show();
@@ -263,7 +342,7 @@ public class ControlActivity extends Activity{
 
                 }
             }
-        });
+        });*/
 
     }
 
@@ -274,6 +353,7 @@ public class ControlActivity extends Activity{
         //获取开关状态信息
         getSwitchStatus();
         getPhoto();
+       // setButton();
 
 
     }
@@ -281,7 +361,7 @@ public class ControlActivity extends Activity{
     private void getPotStatus() {
         OkHttpClient client=new OkHttpClient();
         Request request = new Request.Builder()
-                //<device_id>是354593
+                //<device_id>是354593Fget
                 //<sensor_id>是400693
                 .url("http://api.yeelink.net/v1.0/device/354593/sensor/400693/datapoints")
                 .get()
@@ -360,8 +440,8 @@ public class ControlActivity extends Activity{
 
                             String light=switch_list.get(0);
                             String water=switch_list.get(1);
-                            Toast.makeText(getApplicationContext(),"获取到light是"+light+"获取到water是"+water,Toast.LENGTH_LONG).show();
-                            if (light.equals("1")){
+                            setButton();
+                           /* if (light.equals("1")){
                                 try {
                                     light_switch.setOn(true);
                                 } catch (IOException e) {
@@ -373,8 +453,8 @@ public class ControlActivity extends Activity{
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                            }
-                            if (water.equals("1")){
+                            }*/
+                            /*if (water.equals("1")){
                                 try {
                                     water_switch.setOn(true);
                                 } catch (IOException e) {
@@ -387,7 +467,7 @@ public class ControlActivity extends Activity{
                                     e.printStackTrace();
                                 }
 
-                            }
+                            }*/
 
 
                         }
@@ -405,7 +485,7 @@ public class ControlActivity extends Activity{
     }
     public void getPhoto() {
         //不知道为什么使用Glide无法加载图片，该url下。
-        Glide.with(getApplicationContext())
+        /*Glide.with(getApplicationContext())
                 .load("http://api.yeelink.net/v1.0/device/354593/sensor/400698/photo/content")
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
@@ -424,13 +504,13 @@ public class ControlActivity extends Activity{
 
                     }
                 })
-                .placeholder(R.mipmap.m)
-                .centerCrop()
-                .into(imageView);
 
-       /* OkHttpClient client = new OkHttpClient();
+                .centerCrop()
+                .into(imageView);*/
+
+        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://www.huabaike.com/uploads/allimg/sltimg/201703/bp_58c6624832cd5.jpg")
+                .url("http://api.yeelink.net/v1.0/device/354593/sensor/400698/photo/content")
                 //http://api.yeelink.net/v1.0/device/354593/sensor/400698/photo/content
                 .get()
                 .addHeader("u-apikey", "0ad358217706ef3af6cbe7833a1835ba")
@@ -459,15 +539,13 @@ public class ControlActivity extends Activity{
                     public void run() {
                         //网络图片请求成功，更新到主线程的ImageView
                         imageView.setImageBitmap(bmp);
-
-                        Toast.makeText(getApplication(),"加载成功",Toast.LENGTH_LONG).show();
                     }
                 });
 
 
 
             }
-        });*/
+        });
 
 
 

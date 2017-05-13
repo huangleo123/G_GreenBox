@@ -75,7 +75,7 @@ public class GetPotMessageAsyncTask extends AsyncTask <String ,Integer,PotBean> 
             JSONArray jsonArray =jsonObject.getJSONArray("id_list");
             JSONObject name_jsonObject = new JSONObject(Name_JsonString);
             JSONArray name_jsonArray =name_jsonObject.getJSONArray("name_list");
-            JSONObject jj=new JSONObject(dfdf);
+
 
             for (int i = 0; i <jsonArray.length() ; i++) {
                 pot_id_list.add(jsonArray.getJSONObject(i).getString("Id"));

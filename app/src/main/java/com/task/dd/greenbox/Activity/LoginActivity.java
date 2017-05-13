@@ -25,6 +25,14 @@ import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.bean.BeanLab;
 import com.task.dd.greenbox.database.DBSchema;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 /**
  * Created by dd on 2017/3/16.
  */
@@ -111,6 +119,35 @@ public class LoginActivity extends AppCompatActivity {
                 user_password=editText.getText().toString().trim();
                 user_phone=editText_phone.getText().toString().trim();
                 //调用数据库来查询是否有对应的数据 判断是否进入主页
+                /*OkHttpClient client=new OkHttpClient();
+                Request request= new Request.Builder()
+                        .url("")
+                        .get()
+                        .build();
+                Call call=client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //账户密码错误
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //账户密码错误
+                            }
+                        });
+
+                    }
+                });*/
+
 
                 Cursor cursor=beanLab.queryPhone(DBSchema.Table.NAME,new String[]{"phone,password"},"phone=? and password=?",new String[]{user_phone,user_password});
                 if (user_password.equals("")||user_phone.equals("")){

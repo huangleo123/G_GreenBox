@@ -98,7 +98,6 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
             @Override
             public void dataFinishSuccessfully(PotBean potBean) {
                 mpotBean=potBean;
-                Toast.makeText(getContext(),"获取花盆信息成功",Toast.LENGTH_LONG).show();
                 adapter.refreshData(mpotBean);
 
             }
@@ -174,7 +173,7 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
         //向服务器提交该用户的花盆，服务器返回花盆的id
         String PotID="id";
 
-        Toast.makeText(getContext(),"item被点击第"+position,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"item被点击第"+position,Toast.LENGTH_LONG).show();
         Intent i= new Intent(getActivity(),ControlActivity.class);
         i.putExtra(POT_ID,PotID);
         startActivity(i);
@@ -182,7 +181,7 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
 
     @Override
     public void click(View v) {
-        Toast.makeText(getContext(),"item被点击",Toast.LENGTH_LONG).show();
+       // Toast.makeText(getContext(),"item被点击",Toast.LENGTH_LONG).show();
 
     }
 }
