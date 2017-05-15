@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -24,6 +26,10 @@ import com.task.dd.greenbox.MyApplication;
 import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.bean.BeanLab;
 import com.task.dd.greenbox.database.DBSchema;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -48,10 +54,13 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView reg_weibo;
     private TextView user_pact;
     public static LoginActivity instance;
+    private static  final String TAG="LoginActivity";
 
 
 
     private static final String EXTRA_STRING="LoginActivity.extra_string";
+    private static final  String ID_STRING="id_string";
+    private String id;
     private BeanLab beanLab;
 
     private int numble=1;
@@ -119,9 +128,10 @@ public class LoginActivity extends AppCompatActivity {
                 user_password=editText.getText().toString().trim();
                 user_phone=editText_phone.getText().toString().trim();
                 //调用数据库来查询是否有对应的数据 判断是否进入主页
-                /*OkHttpClient client=new OkHttpClient();
-                Request request= new Request.Builder()
-                        .url("")
+                OkHttpClient client=new OkHttpClient();
+                final Request request= new Request.Builder()
+                        .url("http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/Wx/login/?number="+user_phone+"&password="+user_password)
+                        //http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/Wx/login/?number=15627594935&password=a159753
                         .get()
                         .build();
                 Call call=client.newCall(request);
@@ -131,25 +141,57 @@ public class LoginActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //账户密码错误
+                                Toast.makeText(getApplicationContext(),"网络问题",Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //账户密码错误
+                        String jsonString =response.body().string();
+
+                       // Log.i(TAG,"response"+response.body().string());
+                        try {
+                            JSONObject jsonObject =new JSONObject(jsonString);
+
+                            String result=jsonObject.getString("status");
+                            JSONArray jsonArray=jsonObject.getJSONArray("data");
+                            JSONObject id_jsonObject=jsonArray.getJSONObject(0);
+                            id =id_jsonObject.getString("id");
+
+                            if (result.equals("0")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(),"账号密码错误",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
+                            else {
+                                //将ID传入
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent=newIntent(getApplicationContext(), MainActivity.class,user_phone);
+                                        intent.putExtra(ID_STRING,id);
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                        Toast.makeText(getApplicationContext(),id,Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                           // Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                        }
+
 
                     }
-                });*/
+                });
 
 
-                Cursor cursor=beanLab.queryPhone(DBSchema.Table.NAME,new String[]{"phone,password"},"phone=? and password=?",new String[]{user_phone,user_password});
+                /*Cursor cursor=beanLab.queryPhone(DBSchema.Table.NAME,new String[]{"phone,password"},"phone=? and password=?",new String[]{user_phone,user_password});
                 if (user_password.equals("")||user_phone.equals("")){
                     Toast.makeText(getApplication(),"用户名和密码不能为空",Toast.LENGTH_LONG).show();
                 }else if(cursor.getCount()==1){//有且只有符合要求的cursor才能进入。
@@ -158,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                     LoginActivity.this.finish();
                 }else{
                     Toast.makeText(getApplication(),"用户名或者密码不正确",Toast.LENGTH_LONG).show();
-                }
+                }*/
 
             }
         });

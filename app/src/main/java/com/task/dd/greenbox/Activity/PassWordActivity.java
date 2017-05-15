@@ -27,7 +27,18 @@ import com.task.dd.greenbox.MainActivity;
 import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.bean.BeanLab;
 
-/**
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+/**在这里获得手机和密码然后提交上服务器
  * Created by dd on 2017/3/16.
  */
 
@@ -54,7 +65,6 @@ public class PassWordActivity extends AppCompatActivity {
         phone=bundle.getString(USER_PHONE);
         //获得了电话后，加上密码，加入到数据库
         Toast.makeText(getApplicationContext(),phone,Toast.LENGTH_LONG).show();
-
         //加入数据库 ，在响应确定按钮之后执行
 
 
@@ -156,8 +166,64 @@ public class PassWordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 password=editText.getText().toString().trim();
                 password_ag=editText_ag.getText().toString().trim();
+                OkHttpClient client=new OkHttpClient();
+                final Request request=new Request.Builder()
+                        .url("http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/Wx/data/?number="+phone+"&password="+password)
+                        .get()
+                        .build();
+                Call call =client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),"注册失败,检查网络",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
 
-                if (password.equals("")||password_ag.equals("")){
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String string=response.body().string();
+                        try {
+                            JSONObject jsonObject=new JSONObject(string);
+                            //{"data":[{"text":"已存在该用户"}],"status":"0"}
+                            //{"data":[{"text":"注册成功"}],"status":"1"}
+                            String result=jsonObject.getString("status");
+                            if (result.equals("1")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                            }
+                            else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(),"已有账号，请直接登录",Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+
+               /* if (password.equals("")||password_ag.equals("")){
                     Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
                 }else if(password.equals(password_ag)){
                     Toast.makeText(getApplication(),"注册成功",Toast.LENGTH_SHORT).show();
@@ -172,7 +238,7 @@ public class PassWordActivity extends AppCompatActivity {
 
                 }else{
                     Toast.makeText(getApplication(),"密码不一致，请重新输入",Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             }
         });

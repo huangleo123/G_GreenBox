@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView searchImageView;
     private ImageView scanImageView;
     private ImageView addImageview;
+    private String id;
+    private String userPhone;
+    private static final String EXTRA_STRING="LoginActivity.extra_string";
+    private static final  String ID_STRING="id_string";
 
     private String qqid="1105957331";
     private String qqsre ="fThBurHZAHxCw9rE";
@@ -82,6 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ZXingLibrary.initDisplayOpinion(this);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);//在主题中已经申明不要标题了 可是还是会显示 ，只能再次申明了
         setContentView(R.layout.activity_main);
+        id=getIntent().getExtras().getString(ID_STRING);
+        userPhone=getIntent().getExtras().getString(EXTRA_STRING);
+
         potButton= (RadioButton) findViewById(R.id.pot_button);
         comButton= (RadioButton) findViewById(R.id.com_button);
         setButton= (RadioButton) findViewById(R.id.set_button);

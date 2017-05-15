@@ -4,11 +4,11 @@ import com.task.dd.greenbox.Activity.LoginActivity;
 
 import java.util.List;
 
-/**
+/**花盆个数信息
  * Created by dd on 2016/9/26.
  */
 public class PotBean {
-   private List<String> id_list;
+    private List<String> id_list;
     private List<String> name_list;
 
     public List<String> getName_list() {
