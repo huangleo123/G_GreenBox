@@ -41,6 +41,7 @@ public  class MomentAdapter extends BGARecyclerViewAdapter<Moment> {
         helper.setText(R.id.tv_item_moment_username,moment.username);
         helper.setText(R.id.tv_item_moment_time,moment.time);
         helper.setImageResource(R.id.iv_item_moment_avatar,moment.Resid);
+
         BGANinePhotoLayout ninePhotoLayout = helper.getView(R.id.npl_item_moment_photos);
         ninePhotoLayout.setDelegate(mDelegate);
         //photos 那里是把所有的图片都下载了 ，要改一下模型

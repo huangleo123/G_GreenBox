@@ -13,8 +13,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
@@ -24,8 +26,13 @@ import com.task.dd.greenbox.R;
 import com.task.dd.greenbox.Activity.Moment;
 import com.task.dd.greenbox.adapter.MomentAdapter;
 import com.task.dd.greenbox.asyntask.NewComAsynTask;
+import com.task.dd.greenbox.bean.ComBean;
+import com.task.dd.greenbox.jsonpull.ComJson;
+
+import org.json.JSONException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +42,11 @@ import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
 import cn.bingoogolapple.photopicker.imageloader.BGARVOnScrollListener;
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -51,23 +63,73 @@ public class TestFragment extends Fragment implements EasyPermissions.Permission
     private RecyclerView mMomentRv;
     private MomentAdapter mMomentAdapter;
     private CheckBox mDownLoadableCb;
+    private Moment moment;
     private BGANinePhotoLayout.Delegate mDelegate;
     private BGANinePhotoLayout mCurrentClickNpl;
+    private TextView button_add;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_moment_list,container,false);//listView 视图
        // View headview=View.inflate(getContext(),R.layout.comhead,null);
         //RecyclerViewHeader header = RecyclerViewHeader.fromXml(getContext(), R.id.header);
 
         mDelegate=TestFragment.this;
-        mDownLoadableCb = (CheckBox) view.findViewById(R.id.cb_moment_list_downloadable);
+       // mDownLoadableCb = (CheckBox) view.findViewById(R.id.cb_moment_list_downloadable);
         mMomentRv = (RecyclerView) view.findViewById(R.id.rv_moment_list_moments);
+        mMomentAdapter = new MomentAdapter(mMomentRv,mDelegate);
+
+        button_add= (TextView) view.findViewById(R.id.add_friend);
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getActivity(), MomentAddActivity.class), REQUEST_CODE_ADD_MOMENT);
+            }
+        });
 
         mMomentRv.addOnScrollListener(new BGARVOnScrollListener(getActivity()));
         mMomentRv.setLayoutManager(new LinearLayoutManager(getActivity()));//柔和了xml 上的设置
-        RecyclerViewHeader header = (RecyclerViewHeader) view.findViewById(R.id.header);
-        header.attachTo(mMomentRv,true);
-        NewComAsynTask newComAsynTask =new NewComAsynTask(mMomentRv,getContext(),mDelegate);
-        newComAsynTask.execute(url_1);
+      /*  RecyclerViewHeader header = (RecyclerViewHeader) view.findViewById(R.id.header);
+        header.attachTo(mMomentRv,true);*/
+        OkHttpClient client =new OkHttpClient();
+        Request request=new Request.Builder()
+                .url(url_1)
+                .get()
+                .build();
+        Call call =client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(),"网络问题",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String string=response.body().string();
+                ComJson comJson=new ComJson();
+                ComBean comBean=new ComBean();
+                try {
+                    moment= comJson.ComPull(string);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mMomentRv.setAdapter(mMomentAdapter);
+                        mMomentAdapter.setData(moment.getMoments());//Moment集合
+                    }
+                });
+
+            }
+        });
+
+       /* NewComAsynTask newComAsynTask =new NewComAsynTask(mMomentRv,getContext(),mDelegate);
+        newComAsynTask.execute(url_1);*/
         //启动适配器，调入数据
        // addNetImageTestData();
 
@@ -80,6 +142,18 @@ public class TestFragment extends Fragment implements EasyPermissions.Permission
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_ADD_MOMENT) {
+            //执行更新数据 而不是添加头部
+            String content=MomentAddActivity.getMoment(data).getContent();
+            String username=MomentAddActivity.getMoment(data).getUsername();
+            ArrayList<String> photos= MomentAddActivity.getMoment(data).getPhotos();
+            //成功拿到数据
+           /* moment.setContent(content);
+            moment.setUsername(username);
+            moment.setTime("12:00");
+            moment.setPhotos(photos);
+            mMomentAdapter.setData(moment.getMoments());*/
+            MomentAddActivity.getMoment(data).setResid(R.mipmap.a);
+            MomentAddActivity.getMoment(data).setTime("12:00");
             mMomentAdapter.addFirstItem(MomentAddActivity.getMoment(data));
             mMomentRv.smoothScrollToPosition(0);
         }
@@ -103,11 +177,11 @@ public class TestFragment extends Fragment implements EasyPermissions.Permission
             if (mCurrentClickNpl.getItemCount() == 1) {
                 // 预览单张图片
 
-                startActivity(BGAPhotoPreviewActivity.newIntent(getContext(), mDownLoadableCb.isChecked() ? downloadDir : null, mCurrentClickNpl.getCurrentClickItem()));
+                startActivity(BGAPhotoPreviewActivity.newIntent(getContext(), downloadDir, mCurrentClickNpl.getCurrentClickItem()));
             } else if (mCurrentClickNpl.getItemCount() > 1) {
                 // 预览多张图片
 
-                startActivity(BGAPhotoPreviewActivity.newIntent(getContext(), mDownLoadableCb.isChecked() ? downloadDir : null, mCurrentClickNpl.getData(), mCurrentClickNpl.getCurrentClickItemPosition()));
+                startActivity(BGAPhotoPreviewActivity.newIntent(getContext(), downloadDir, mCurrentClickNpl.getData(), mCurrentClickNpl.getCurrentClickItemPosition()));
             }
         } else {
             EasyPermissions.requestPermissions(this, "图片预览需要以下权限:\n\n1.访问设备上的照片", REQUEST_CODE_PERMISSION_PHOTO_PREVIEW, perms);

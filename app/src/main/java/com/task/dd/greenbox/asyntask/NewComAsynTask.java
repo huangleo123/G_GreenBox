@@ -40,7 +40,6 @@ public class NewComAsynTask extends AsyncTask<String ,Integer,Moment> {
         Moment moment=new Moment();
         try {
             moment= comJson.ComPull(jsonString);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package com.task.dd.greenbox.Activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.task.dd.greenbox.R;
@@ -17,7 +20,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bingoogolapple.photopicker.activity.BGAPPToolbarActivity;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity;
 
@@ -28,7 +30,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * 你自己项目里「可以不继承 BGAPPToolbarActivity」，我在这里继承 BGAPPToolbarActivity 只是为了方便写 Demo
  */
-public class MomentAddActivity extends BGAPPToolbarActivity implements EasyPermissions.PermissionCallbacks, BGASortableNinePhotoLayout.Delegate {
+public class MomentAddActivity extends Activity implements EasyPermissions.PermissionCallbacks,BGASortableNinePhotoLayout.Delegate,View.OnClickListener {
     private static final int REQUEST_CODE_PERMISSION_PHOTO_PICKER = 1;
 
     private static final int REQUEST_CODE_CHOOSE_PHOTO = 1;
@@ -67,28 +69,47 @@ public class MomentAddActivity extends BGAPPToolbarActivity implements EasyPermi
     // ==================================== 测试拖拽排序九宫格图片控件 END ====================================
 
     private EditText mContentEt;
+    private TextView tv_select;
+    private TextView tv_release;
+    private ImageView imageView;
 
     public static Moment getMoment(Intent intent) {
         return intent.getParcelableExtra(EXTRA_MOMENT);
     }
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_moment_add);
-        mSingleChoiceCb = getViewById(R.id.cb_moment_add_single_choice);
-        mTakePhotoCb = getViewById(R.id.cb_moment_add_take_photo);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView(savedInstanceState);
+        setListener();
+        processLogic(savedInstanceState);
 
-        mEditableCb = getViewById(R.id.cb_moment_add_editable);
-        mPlusCb = getViewById(R.id.cb_moment_add_plus);
-        mSortableCb = getViewById(R.id.cb_moment_add_sortable);
-
-        mContentEt = getViewById(R.id.et_moment_add_content);
-        mPhotosSnpl = getViewById(R.id.snpl_moment_add_photos);
     }
 
-    @Override
+    protected void initView(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_moment_add);
+       // mSingleChoiceCb = (CheckBox) findViewById(R.id.cb_moment_add_single_choice);
+       // mTakePhotoCb = (CheckBox) findViewById(R.id.cb_moment_add_take_photo);
+
+      //  mEditableCb = (CheckBox) findViewById(R.id.cb_moment_add_editable);
+       // mPlusCb = (CheckBox) findViewById(R.id.cb_moment_add_plus);
+       // mSortableCb = (CheckBox) findViewById(R.id.cb_moment_add_sortable);
+        tv_release= (TextView) findViewById(R.id.tv_moment_add_publish);
+        tv_select= (TextView) findViewById(R.id.tv_moment_add_choice_photo);
+        imageView= (ImageView) findViewById(R.id.iv_add_friends__back);
+
+
+        mContentEt = (EditText) findViewById(R.id.et_moment_add_content);
+        mPhotosSnpl = (BGASortableNinePhotoLayout) findViewById(R.id.snpl_moment_add_photos);
+        mPhotosSnpl.setMaxItemCount(9);
+        mPhotosSnpl.setEditable(true);
+        mPhotosSnpl.setPlusEnable(true);
+        mPhotosSnpl.setSortable(true);
+    }
+
+
     protected void setListener() {
-        mSingleChoiceCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*mSingleChoiceCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if (checked) {
@@ -98,39 +119,66 @@ public class MomentAddActivity extends BGAPPToolbarActivity implements EasyPermi
                     mPhotosSnpl.setMaxItemCount(9);
                 }
             }
-        });
-        mEditableCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        });*/
+        /*mEditableCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 mPhotosSnpl.setEditable(checked);
             }
-        });
-        mPlusCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        });*/
+        /*mPlusCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 mPhotosSnpl.setPlusEnable(checked);
             }
-        });
-        mSortableCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        });*/
+        /*mSortableCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 mPhotosSnpl.setSortable(checked);
             }
-        });
+        });*/
 
         // 设置拖拽排序控件的代理
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mPhotosSnpl.setDelegate(this);
+        tv_release.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = mContentEt.getText().toString().trim();
+                if (content.length() == 0 && mPhotosSnpl.getItemCount() == 0) {
+                    Toast.makeText(getApplicationContext(), "必须填写这一刻的想法或选择照片！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent intent = new Intent();
+                intent.putExtra(EXTRA_MOMENT, new Moment(mContentEt.getText().toString().trim(),"添加用户名", mPhotosSnpl.getData()));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        tv_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choicePhotoWrapper();
+            }
+        });
     }
 
-    @Override
+
     protected void processLogic(Bundle savedInstanceState) {
         setTitle("添加朋友圈");
 
-        mEditableCb.setChecked(mPhotosSnpl.isEditable());
-        mPlusCb.setChecked(mPhotosSnpl.isPlusEnable());
-        mSortableCb.setChecked(mPhotosSnpl.isSortable());
+        mPhotosSnpl.setEditable(true);
+        mPhotosSnpl.setPlusEnable(true);
+        mPhotosSnpl.setSortable(true);
     }
-
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_moment_add_choice_photo) {
             choicePhotoWrapper();
@@ -170,7 +218,7 @@ public class MomentAddActivity extends BGAPPToolbarActivity implements EasyPermi
             // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话就没有拍照功能
             File takePhotoDir = new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto");
 
-            startActivityForResult(BGAPhotoPickerActivity.newIntent(this, mTakePhotoCb.isChecked() ? takePhotoDir : null, mPhotosSnpl.getMaxItemCount() - mPhotosSnpl.getItemCount(), null, false), REQUEST_CODE_CHOOSE_PHOTO);
+            startActivityForResult(BGAPhotoPickerActivity.newIntent(this, takePhotoDir, mPhotosSnpl.getMaxItemCount() - mPhotosSnpl.getItemCount(), null, false), REQUEST_CODE_CHOOSE_PHOTO);
         } else {
             EasyPermissions.requestPermissions(this, "图片选择需要以下权限:\n\n1.访问设备上的照片\n\n2.拍照", REQUEST_CODE_PERMISSION_PHOTO_PICKER, perms);
         }
@@ -197,11 +245,7 @@ public class MomentAddActivity extends BGAPPToolbarActivity implements EasyPermi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CHOOSE_PHOTO) {
-            if (mSingleChoiceCb.isChecked()) {
-                mPhotosSnpl.setData(BGAPhotoPickerActivity.getSelectedImages(data));
-            } else {
-                mPhotosSnpl.addMoreData(BGAPhotoPickerActivity.getSelectedImages(data));
-            }
+            mPhotosSnpl.addMoreData(BGAPhotoPickerActivity.getSelectedImages(data));
         } else if (requestCode == REQUEST_CODE_PHOTO_PREVIEW) {
             mPhotosSnpl.setData(BGAPhotoPickerPreviewActivity.getSelectedImages(data));
         }

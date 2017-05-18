@@ -1,67 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/MatchMatch.Vertical">
 
+    <LinearLayout
+        style="@style/MatchWrap.Horizontal"
+        android:gravity="center_vertical">
 
-    <CheckBox
-        android:id="@+id/cb_moment_list_downloadable"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_height="1dp"
-        android:layout_width="1dp" />
+
+
+        <TextView
+            android:id="@+id/add_friend"
+            style="@style/MatchWrapTv"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_btn_orange"
+            android:onClick="onClick"
+            android:padding="8dp"
+            android:layout_margin="10dp"
+            android:text="添加朋友圈" />
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_moment_list_moments"
         style="@style/MatchMatch" />
-    <com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="274dp"
-                app:srcCompat="@mipmap/comhead1"
-                android:scaleY="1.2"
-                android:layout_marginBottom="40dp"
-                android:id="@+id/comhead" />
-            <ImageView
-                android:layout_width="72dp"
-                android:layout_height="71dp"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="10dp"
-                android:background="@color/white"
-
-                />
-
-
-            <ImageView
-                android:layout_width="71dp"
-                android:layout_height="70dp"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="10dp"
-                android:background="@color/white"
-                android:src="@mipmap/comicon"
-                android:id="@+id/imageView4" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="春田园长"
-                android:textSize="16sp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginRight="110dp"
-                android:paddingBottom="45dp"
-                />
-
-
-        </FrameLayout>
-
-    </com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader>
-
-
-</FrameLayout>
+</LinearLayout>

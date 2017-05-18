@@ -31,7 +31,7 @@ public class ComJson{
         photos=new ArrayList<>();
         moments=new ArrayList<>();
         String[] userString = {"小花小草", "紫罗兰", "小蛋蛋是我", "砖石玫瑰", "阳光明媚", "小橙子", "云中漫步", "hhl199570827", "呆妞小宝", "吃货宝宝", "幽谷佳人", "非诚勿扰", "陈立彬傻逼", "我是喜洋洋", "三笠紫外", "媛媛归来", "幽谷佳人", "乱世传说", "风中的花香", "中国好孤雁", "芝兰", "背背"};
-        int[] userId={R.mipmap.a,R.mipmap.b,R.mipmap.c,R.mipmap.v,R.mipmap.e,R.mipmap.f,R.mipmap.g,R.mipmap.h,R.mipmap.i,R.mipmap.j,R.mipmap.k,R.mipmap.l,R.mipmap.m,R.mipmap.n,R.mipmap.o,R.mipmap.p,R.mipmap.q,R.mipmap.r,R.mipmap.s,R.mipmap.t,R.mipmap.u,};
+        int[] userId={R.mipmap.a,R.mipmap.b,R.mipmap.c,R.mipmap.v,R.mipmap.e,R.mipmap.f,R.mipmap.g,R.mipmap.h,R.mipmap.i,R.mipmap.j,R.mipmap.k,R.mipmap.l,R.mipmap.m,R.mipmap.n,R.mipmap.o,R.mipmap.p,R.mipmap.q,R.mipmap.r,R.mipmap.s,R.mipmap.t,R.mipmap.u,R.mipmap.juhua};
         JSONObject jsonObject=new JSONObject(jsonString);
         JSONObject datajsonObject=jsonObject.getJSONObject("data");
         JSONArray listjsonArray=datajsonObject.getJSONArray("list");

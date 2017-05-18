@@ -37,6 +37,8 @@
             >
 
         </activity>
+        <activity android:name=".Activity.MomentAddActivity"/>
+
         <activity android:name=".Activity.PassWordActivity">
 
         </activity>
