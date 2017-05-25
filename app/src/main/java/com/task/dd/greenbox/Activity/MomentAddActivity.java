@@ -157,7 +157,7 @@ public class MomentAddActivity extends Activity implements EasyPermissions.Permi
                 }
 
                 Intent intent = new Intent();
-                intent.putExtra(EXTRA_MOMENT, new Moment(mContentEt.getText().toString().trim(),"添加用户名", mPhotosSnpl.getData()));
+                intent.putExtra(EXTRA_MOMENT, new Moment(mContentEt.getText().toString().trim(),"我", mPhotosSnpl.getData()));
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -190,7 +190,7 @@ public class MomentAddActivity extends Activity implements EasyPermissions.Permi
             }
 
             Intent intent = new Intent();
-            intent.putExtra(EXTRA_MOMENT, new Moment(mContentEt.getText().toString().trim(),"添加用户名", mPhotosSnpl.getData()));
+            intent.putExtra(EXTRA_MOMENT, new Moment(mContentEt.getText().toString().trim(),"我", mPhotosSnpl.getData()));
             setResult(RESULT_OK, intent);
             finish();
         }

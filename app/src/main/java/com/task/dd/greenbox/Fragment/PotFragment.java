@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +87,8 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
         user_id=getActivity().getIntent().getExtras().getString(ID_STRING);
 
         name_list=new ArrayList<>();
+        id_list=new ArrayList<>();
+        id_list.add("01");
         name_list.add("暂无花盆");
         mpotBean.setName_list(name_list);
 
@@ -155,7 +158,7 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
                        getActivity().runOnUiThread(new Runnable() {
                            @Override
                            public void run() {
-                               Toast.makeText(getContext(),user_id,Toast.LENGTH_SHORT).show();
+
                                adapter.refreshData(mpotBean);//想不到这个是在UI线程的
 
                            }
@@ -164,12 +167,6 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
 
                        //没有数据，空处理
                    }
-
-
-
-
-
-
 
                } catch (JSONException e) {
                    e.printStackTrace();
@@ -257,10 +254,10 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
                         i.putExtra(USER_ID,user_id);
                         i.putExtra(POT_ID,result);
                         startActivity(i);
-                        Toast.makeText(getContext(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+
 
                     }else {
-                        Toast.makeText(getContext(), "不是合法的注册二维码" + result, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "不是合法的注册二维码", Toast.LENGTH_LONG).show();
                     }
 
 
@@ -275,11 +272,30 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //向服务器提交该用户的花盆，服务器返回花盆的id
-        String PotID=mpotBean.getId_list().get(position-1);//减去1是为了去掉头部
+        Log.i("ITEM_P", String.valueOf(position));
+        Log.i("ITEM_ID", String.valueOf(id));
+       if (position!=0){
+           //因为增加了头部所以写了这while
+           String potName=mpotBean.getName_list().get(0);
+
+           if (potName.equals("暂无花盆")){
+               Toast.makeText(getContext(),"请添加花盆",Toast.LENGTH_LONG).show();
+           }else {
+               String PotID=mpotBean.getId_list().get(position-1);
+               Intent i= new Intent(getActivity(),ControlActivity.class);
+               i.putExtra(POT_ID,PotID);
+               startActivity(i);
+           }
+
+       }else {
+           //点击的是listview 添加的头部
+       }
+        //Toast.makeText(getContext(),String.valueOf(id),Toast.LENGTH_LONG).show();
+       // String PotID=mpotBean.getId_list().get(position-1);//减去1是为了去掉头部
         //Toast.makeText(getContext(),"item被点击第"+position,Toast.LENGTH_LONG).show();
-        Intent i= new Intent(getActivity(),ControlActivity.class);
-        i.putExtra(POT_ID,PotID);
-        startActivity(i);
+
+      //  i.putExtra(POT_ID,PotID);
+       // startActivity(i);
     }
 
     @Override

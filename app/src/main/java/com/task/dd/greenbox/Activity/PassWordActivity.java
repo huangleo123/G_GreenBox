@@ -64,7 +64,7 @@ public class PassWordActivity extends AppCompatActivity {
         Bundle bundle=getIntent().getExtras();
         phone=bundle.getString(USER_PHONE);
         //获得了电话后，加上密码，加入到数据库
-        Toast.makeText(getApplicationContext(),phone,Toast.LENGTH_LONG).show();
+
         //加入数据库 ，在响应确定按钮之后执行
 
 
@@ -166,6 +166,9 @@ public class PassWordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 password=editText.getText().toString().trim();
                 password_ag=editText_ag.getText().toString().trim();
+                if(password.length()>12&password_ag.length()>12){
+                    Toast.makeText(getApplicationContext(),"密码长度太长",Toast.LENGTH_LONG);
+                }
                 OkHttpClient client=new OkHttpClient();
                 final Request request=new Request.Builder()
                         .url("http://srms.telecomlab.cn/ZZX/lihuas/index.php/home/Wx/data/?number="+phone+"&password="+password)

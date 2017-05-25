@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.putExtra(ID_STRING,id);
                                         startActivity(intent);
                                         LoginActivity.this.finish();
-                                        Toast.makeText(getApplicationContext(),id,Toast.LENGTH_LONG).show();
+
                                     }
                                 });
                             }

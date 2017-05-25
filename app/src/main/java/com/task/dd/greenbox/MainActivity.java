@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         comButton.setOnClickListener(this);
         setButton.setOnClickListener(this);
         knowButton.setOnClickListener(this);
+        showCurrentFragment(1);
         toolbar= (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
        // toolbar.inflateMenu(R.menu.toolbar_menu);  不需要目录所以不启用了  但是目录已经写好了 启用就可以了
         toolbar.setNavigationIcon(R.mipmap.ic_greedbox80xr);
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
                     //result 代表的是扫描的结果 ，再次应该直接异步然后起动线程
-                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(MainActivity.this, "解析二维码失败，检查网络", Toast.LENGTH_LONG).show();
                 }
