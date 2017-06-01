@@ -282,8 +282,11 @@ public class PotFragment extends Fragment implements OnItemClickListener,PotAdap
                Toast.makeText(getContext(),"请添加花盆",Toast.LENGTH_LONG).show();
            }else {
                String PotID=mpotBean.getId_list().get(position-1);
+               String pot_head_name=mpotBean.getName_list().get(position-1);
+               Log.i("potname",pot_head_name);
                Intent i= new Intent(getActivity(),ControlActivity.class);
                i.putExtra(POT_ID,PotID);
+               i.putExtra("POT_HEAD_NAME",pot_head_name);
                startActivity(i);
            }
 

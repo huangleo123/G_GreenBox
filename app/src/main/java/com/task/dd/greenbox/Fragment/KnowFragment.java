@@ -201,7 +201,7 @@ public class KnowFragment extends Fragment implements OnItemClickListener,KnowAd
             KnowBean knowBean=new KnowBean();
             NewKnowJson knowJson=new NewKnowJson();
             knowBean=knowJson.knowPull(getData());
-            Toast.makeText(getContext(), "的item被点击了！，点击的位置是-->" + position+knowBean.getListKnowBean().get(position-2).getId(), Toast.LENGTH_SHORT).show();
+           /* Toast.makeText(getContext(), "的item被点击了！，点击的位置是-->" + position+knowBean.getListKnowBean().get(position-2).getId(), Toast.LENGTH_SHORT).show();*/
             Intent i=new Intent(getActivity(), WebActivity.class);
             String url=knowBean.getListKnowBean().get(position-2).getUrl();
             i.putExtra(EXTRA_WEB,url);
@@ -226,7 +226,7 @@ public class KnowFragment extends Fragment implements OnItemClickListener,KnowAd
         String url=knowBean.getListKnowBean().get((Integer) v.getTag()).getUrl();
         i.putExtra(EXTRA_WEB,url);
         startActivity(i);
-        Toast.makeText(getContext(), "listview的内部的按钮被点击了！，位置是-->" +  knowBean.getListKnowBean().get((Integer) v.getTag()).getId()  , Toast.LENGTH_SHORT).show();
+      /*  Toast.makeText(getContext(), "listview的内部的按钮被点击了！，位置是-->" +  knowBean.getListKnowBean().get((Integer) v.getTag()).getId()  , Toast.LENGTH_SHORT).show();*/
 
     }
 }

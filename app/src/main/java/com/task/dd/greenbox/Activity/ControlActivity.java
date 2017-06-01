@@ -59,12 +59,14 @@ public class ControlActivity extends Activity{
     private List<String> switch_list;
     private IOSSwitchView light_switch;
     private  int i=0;
+    private TextView potname;
 
 
     private Pot_Message pot_message;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String TAG = "MainActivity";
     private SingleBean singlebean;
+    private String lightglobal="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,9 @@ public class ControlActivity extends Activity{
         tv_humidity= (TextView) findViewById(R.id.tv_humidity);
         tv_water= (TextView) findViewById(R.id.tv_water);
         tv_soil_humidity= (TextView) findViewById(R.id.tv_soil_humidity);
+        potname= (TextView) findViewById(R.id.pot_head_name);
+        String pot_head_name=getIntent().getExtras().getString("POT_HEAD_NAME");
+        potname.setText(pot_head_name);
 
         //water_switch= (IOSSwitchView) findViewById(R.id.switch_water);
 
@@ -117,8 +122,11 @@ public class ControlActivity extends Activity{
 
     private void SetSwitch(final String light, final String pump) throws IOException {
 
-
+        final String set_light=singlebean.getSwitch_list().get(0);
+        Log.i(TAG, "content: " +"开头set_light"+set_light );
         String jsonSting = "{\"key\":\"inbox\",\"value\":{\"light\":\"" + light + "\",\"pumb\":\"" + pump + "\"}}";
+
+        Log.i("content",jsonSting);
         OkHttpClient client = new OkHttpClient();
         RequestBody requestbody = RequestBody.create(JSON, jsonSting);
         Request request = new Request.Builder()
@@ -146,11 +154,30 @@ public class ControlActivity extends Activity{
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: " + response.code());
                 int code= response.code();
-                if (code!=200){
+                if(code==406){
                     ControlActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //状态的改变
+                            if (set_light.equals("0")){
+                                iv_sunshine_back.setImageDrawable(getResources().getDrawable(R.drawable.button_light_bg_normal));
+                                singlebean.getSwitch_list().set(0,"0");
+                                Log.i(TAG, "content: " +"访问失败，重置0" );
+                            }else {
+                                iv_sunshine_back.setImageDrawable(getResources().getDrawable(R.drawable.button_light_bg_focused));
+                                singlebean.getSwitch_list().set(0,"1");
+                                Log.i(TAG, "content: " +"访问失败，重置1" );
+                            }
                             Toast.makeText(getApplicationContext(),"点击太快，访问失败", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }else if (code==200){
+                    ControlActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Log.i(TAG, "content: " +"访问成功" );
+
                         }
                     });
 
@@ -184,7 +211,7 @@ public class ControlActivity extends Activity{
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //网络图片请求成功，更新到主线程的ImageView
+
                                 iv_water_back.setImageDrawable(getResources().getDrawable(R.drawable.button_bg_normal));
 
                             }
@@ -197,6 +224,7 @@ public class ControlActivity extends Activity{
                 timer.schedule(task,5000);
                 try {
                     SetSwitch(light,"1");
+                    Log.i(TAG, "content: " +"执行setSwitch后修改了"+light  + "1" );
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -210,6 +238,7 @@ public class ControlActivity extends Activity{
             @Override
             public void onClick(View v) {
                 String light=singlebean.getSwitch_list().get(0);
+                Log.i(TAG, "content: " +"点击时候的light"+"  "+light);
                 if (light.equals("0")){
                     iv_sunshine_back.setImageDrawable(getResources().getDrawable(R.drawable.button_light_bg_focused));
                     try {
@@ -218,6 +247,7 @@ public class ControlActivity extends Activity{
                         e.printStackTrace();
                     }
                     singlebean.getSwitch_list().set(0,"1");
+                    Log.i(TAG, "content: " +"执行setSwitch后修改了"+"1  0" );
 
 
                 } else{
@@ -228,6 +258,7 @@ public class ControlActivity extends Activity{
                         e.printStackTrace();
                     }
                     singlebean.getSwitch_list().set(0,"0");
+                    Log.i(TAG, "content: " +"执行setSwitch后修改了"+"0  0" );
 
 
                 }
@@ -441,34 +472,6 @@ public class ControlActivity extends Activity{
                             String light=switch_list.get(0);
                             String water=switch_list.get(1);
                             setButton();
-                           /* if (light.equals("1")){
-                                try {
-                                    light_switch.setOn(true);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }else {
-                                try {
-                                    light_switch.setOn(false);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }*/
-                            /*if (water.equals("1")){
-                                try {
-                                    water_switch.setOn(true);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }else {
-                                try {
-                                    water_switch.setOn(false);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }*/
-
 
                         }
                     });
